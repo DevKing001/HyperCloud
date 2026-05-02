@@ -57,20 +57,20 @@ fi
     if [ ! -f "$SEED_FILE" ]; then
         echo "[INFO] Creating cloud-init ISO..."
 
-    cat > user-data <<EOF
-    #cloud-config
-    hostname: hypercloud
-    ssh_pwauth: true
-    chpasswd:
-      list: |
-        root:root
-     expire: false
-    EOF
+cat > user-data <<EOF
+#cloud-config
+hostname: hypercloud
+ssh_pwauth: true
+chpasswd:
+  list: |
+    root:root
+ expire: false
+EOF
 
-    cat > meta-data <<EOF
-    instance-id: iid-local01
-    local-hostname: Host
-    EOF
+cat > meta-data <<EOF
+instance-id: iid-local01
+local-hostname: Host
+EOF
 
         genisoimage -output "$SEED_FILE" -volid cidata -joliet -rock user-data meta-data
     fi
