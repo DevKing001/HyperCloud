@@ -72,7 +72,7 @@ fi
     local-hostname: Host
     EOF
 
-        cloud-localds "$SEED_FILE" user-data meta-data
+        genisoimage -output "$SEED_FILE" -volid cidata -joliet -rock user-data meta-data
     fi
     
     # IDENTITY: Intel Core i9-14900KS Emulation
