@@ -63,7 +63,7 @@ fi
     ssh_pwauth: true
     chpasswd:
      list: |
-       root:root
+        root:root
       expire: false
     EOF
 
