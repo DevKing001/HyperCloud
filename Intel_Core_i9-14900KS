@@ -46,33 +46,48 @@ EOF
     # =============================
     # VM Image Setup
     # =============================
-    # Ensure image exists
-if [ ! -f "$IMG_FILE" ]; then
-    echo "[INFO] Downloading VM image..."
-    wget -q https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img -O "$IMG_FILE"
-    qemu-img resize "$IMG_FILE" "$DISK_SIZE"
-fi
-
-    # Ensure seed.iso exists
-    if [ ! -f "$SEED_FILE" ]; then
-        echo "[INFO] Creating cloud-init ISO..."
-
-cat > user-data <<EOF
-#cloud-config
-hostname: hypercloud
-ssh_pwauth: true
-chpasswd:
-  list: |
-    root:root
- expire: false
+    if [ ! -f "$IMG_FILE" ]; then
+        echo "[INFO] VM image not found, downloading and creating VM Image..."
+        
+        wget -q https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img -O "$IMG_FILE"
+        
+        # Physical resize on the Host
+        qemu-img resize "$IMG_FILE" "$DISK_SIZE"
+    
+        # Cloud-init configuration
+        cat > user-data <<EOF
+    #cloud-config
+    hostname: hypercloud
+    manage_etc_hosts: true
+    disable_root: false
+    ssh_pwauth: true
+    chpasswd:
+      list: |
+        root:root
+      expire: false
+    
+    growpart:
+      mode: auto
+      devices: ["/"]
+    resize_rootfs: true
+    
+    runcmd:
+      - growpart /dev/vda 1 || growpart /dev/vda 3 || true
+      - resize2fs /dev/vda1 || resize2fs /dev/vda3 || true
+      - sed -ri "s/^#?PermitRootLogin.*/PermitRootLogin yes/" /etc/ssh/sshd_config
+      - systemctl restart ssh
 EOF
-
-cat > meta-data <<EOF
-instance-id: iid-local01
-local-hostname: Host
+    
+        cat > meta-data <<EOF
+    instance-id: iid-local01
+    local-hostname: Host
 EOF
-
-        genisoimage -output "$SEED_FILE" -volid cidata -joliet -rock user-data meta-data
+    
+        # Generate the config ISO (using cloud-utils from dev.nix)
+        cloud-localds "$SEED_FILE" user-data meta-data
+        echo "[INFO] VM setup complete!"
+    else
+        echo "[INFO] VM image found, launching..."
     fi
     
     # IDENTITY: Intel Core i9-14900KS Emulation
