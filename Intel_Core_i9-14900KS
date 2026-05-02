@@ -62,9 +62,9 @@ fi
     hostname: hypercloud
     ssh_pwauth: true
     chpasswd:
-     list: |
+      list: |
         root:root
-      expire: false
+     expire: false
     EOF
 
     cat > meta-data <<EOF
