@@ -18,7 +18,7 @@ EOF
     # Automatic Disk Management
     # =============================
     # Uses /tmp (291GB partition) to bypass the 15GB Home Wall
-    REAL_STORAGE="/tmp/hypercloud-data"
+    REAL_STORAGE="/tmp/strenoxcloud-data"
     LINK_PATH="$HOME/vms"
     
     mkdir -p "$REAL_STORAGE"
