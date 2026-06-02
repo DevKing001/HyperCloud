@@ -36,7 +36,7 @@ EOF
     IMG_FILE="$VM_DIR/ubuntu-cloud.img"
     SEED_FILE="$VM_DIR/seed.iso"
     MEMORY=131072
-    CPUS=32
+    CPUS=8
     SSH_PORT=22
     DISK_SIZE=20000G
     
@@ -110,4 +110,6 @@ EOF
         -boot order=c \
         -device virtio-net-pci,netdev=n0 \
         -netdev user,id=n0,hostfwd=tcp::"$SSH_PORT"-:22 \
-        -nographic -serial mon:stdio
+        -display none \
+        -nographic \
+        -serial mon:stdio
