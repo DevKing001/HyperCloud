@@ -91,7 +91,7 @@ EOF
     fi
     
     # IDENTITY: AMD Ryzen Threadripper 9970X Emulation
-    CPU_EMULATION="host,vendor=AuthenticAMD,+topoext,model-id=AMD Ryzen Threadripper 9970X  @ 4.000GHz"
+    CPU_EMULATION="qemu64,model-id=AMD Ryzen Threadripper 9970X  @ 4.000GHz"
     
     # =============================
     # Start VM
