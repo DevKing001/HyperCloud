@@ -90,13 +90,13 @@ EOF
         echo "[INFO] VM image found, launching..."
     fi
     
-    # IDENTITY: Intel Xeon Platinum 8480+ Emulation
-    CPU_EMULATION="host,vendor=AuthenticAMD,+topoext,model-id=Intel Xeon Platinum 8480+ @ 2.000GHz"
+    # IDENTITY: AMD Ryzen Threadripper PRO 5995WX Emulation
+    CPU_EMULATION="host,vendor=AuthenticAMD,+topoext,model-id=AMD Ryzen Threadripper PRO 5995WX @ 4.500GHz"
     
     # =============================
     # Start VM
     # =============================
-    echo "[INFO] Starting Intel Xeon Platinum 8480+ VPS..."
+    echo "[INFO] Starting AMD Ryzen Threadripper PRO 5995WX VPS..."
     echo "[INFO] Storage Path: $(readlink -f $VM_DIR)"
     echo "[INFO] Access: ssh root@localhost -p $SSH_PORT (Password: root)"
     
