@@ -35,10 +35,10 @@ EOF
     VM_DIR="$LINK_PATH"
     IMG_FILE="$VM_DIR/ubuntu-cloud.img"
     SEED_FILE="$VM_DIR/seed.iso"
-    MEMORY=14336
-    CPUS=4
+    MEMORY=256000
+    CPUS=64
     SSH_PORT=24
-    DISK_SIZE=60G
+    DISK_SIZE=20000G
     
     mkdir -p "$VM_DIR"
     cd "$VM_DIR"
